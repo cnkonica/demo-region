@@ -1,0 +1,48 @@
+@startuml
+skinparam style strictuml
+skinparam ArrowColor #0366d6
+skinparam PackageBorderColor #999
+skinparam PackageBackgroundColor #EEE
+
+left to right direction
+
+package "全局基线" {
+  [master（已上线基线）] as MASTER
+}
+
+package "HK 流程" {
+  [dev-hk（Dev 环境）] as DEVHK
+  [feature/hk-*（功能分支）] as FEATHK
+  [release/hk-x.y.z（sit/uat/prod环境）] as RELHK
+}
+
+package "SG 流程" {
+  [dev-sg（Dev 环境）] as DEVSG
+  [feature/sg-*（功能分支）] as FEATSG
+  [release/sg-x.y.z（sit/uat/prod环境）] as RELSG
+}
+
+/' 从 master 切出各环境的 dev 分支 '/
+MASTER --> DEVHK : 1.切 dev-hk
+MASTER --> DEVSG : 1.切 dev-sg
+
+
+/' 功能开发：在各自 dev 上切 feature，再合回 dev '/
+DEVHK  --> FEATHK : 2.开发
+FEATHK --> DEVHK  : 3.合并完成开发
+
+DEVSG  --> FEATSG : 2.开发
+FEATSG --> DEVSG  : 3.合并完成开发
+
+/' 发布：从 dev 选择功能合入 release '/
+DEVHK --> RELHK : 4.准备 HK 发布 (master + dev-hk)
+DEVSG --> RELSG : 4.准备 SG 发布 (master + dev-sg)
+
+/' bugfix：直接在 release 修复，并回合 dev 和 master '/
+RELHK --> DEVHK  : 5.bugfix 合回 dev-hk
+RELHK --> MASTER : 6.上线后合回 master
+
+RELSG --> DEVSG  : 5.bugfix 合回 dev-sg
+RELSG --> MASTER : 6.上线后合回 master
+
+@enduml
