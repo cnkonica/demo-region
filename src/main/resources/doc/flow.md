@@ -333,10 +333,11 @@ sg-2.0.1-prod
 
 ```bash
 git checkout hk-1.2.0-prod
+git checkout -b release/hk-1.2.1
 git checkout -b hotfix/hk-prod-bug-999
 ```
 
-2. 修 bug → 合到对应 release（如 `release/hk-1.2.0`）
+2. 修 bug → 合到对应 release（如 `release/hk-1.2.1`）
 3. 部署 hk-prod（形成 `hk-1.2.1-prod`）
 4. 修复同步到：
 
