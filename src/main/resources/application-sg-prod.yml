@@ -1,0 +1,7 @@
+togglz:
+  features-file: file:./src/main/resources/togglz-features-sg-prod.properties
+
+region:
+  code: SG
+  environment: prod
+  timezone: Asia/Singapore

@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: demo-region
+  profiles:
+    active: hk-dev
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+togglz:
+  feature-base-package: com.example.region.feature
+  features-file: file:./src/main/resources/togglz-features-default.properties
+  console:
+    enabled: true
+    path: /togglz-console
+    secured: false
